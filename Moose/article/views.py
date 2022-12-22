@@ -10,10 +10,14 @@ from comment.models import Comment
 
 def article_view(request):
     obj = Article.objects.all()[:12]
+    p = Paginator(Article.objects.all(), 3)
+    page = request.GET.get('page')
+    obj_page = p.get_page(page)
     obj_contactme = ComtactMe.objects.all()
     ctx = {
         'articles': obj,
-        'contactmes': obj_contactme
+        'pages': obj_page,
+        'contactmes': obj_contactme,
     }
 
     return render(request, 'blog.html', ctx)
